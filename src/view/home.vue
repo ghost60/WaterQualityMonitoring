@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="back">
     <Header title="沙坪二级鱼道"></Header>
     <router-view></router-view>
     <tabbar>
@@ -35,3 +35,8 @@ export default {
   methods: {}
 };
 </script>
+<style lang="less">
+.back{
+  background-color: #EFEFF4;
+}
+</style>

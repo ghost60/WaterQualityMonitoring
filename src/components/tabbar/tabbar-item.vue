@@ -1,10 +1,10 @@
 <template>
-  <div class="tabbar-item" @click="onItemClick(true)">
-      <div class="item-icon" v-if="!simple">
-         <slot name="icon" v-if="!simple && !(hasActiveIcon && isActive)"></slot>
-         <slot name="icon-active" v-if="!simple && hasActiveIcon && isActive"></slot>
+  <div class="tabbar-item" @click="onItemClick('link')">
+      <div class="item-icon">
+         <slot name="icon" v-if="!isActive"></slot>
+         <slot name="icon-active" v-if="isActive"></slot>
       </div>
-      <div class="item-lable">
+      <div class="item-lable" :class="classes">
         <slot name="label"></slot>
       </div>
     </div>
@@ -23,37 +23,29 @@ export default {
     isActive() {
       return this.$parent.index === this.currentIndex;
     },
-  },
-  data() {
-    return {
-      simple: false,
-      hasActiveIcon: false
-    };
-  },
-  mounted() {
-    if (!this.$slots.icon) {
-      this.simple = true;
+    classes() {
+      return {
+        "current": this.$parent.index === this.currentIndex
+      };
     }
-    if (this.$slots["icon-active"]) {
-      this.hasActiveIcon = true;
-    }
-    if(this.selected){
-        this.isSelect = "selected"
-      }
   }
 };
 </script>
 <style lang="less">
 .item-icon {
   margin: 2px 0px -7px 0px;
+  img {
+    width: 22px;
+    height: 22px;
+  }
 }
 .item-lable {
   text-align: center;
   color: #999;
   font-size: 12px;
   line-height: 1.8;
-  &.selected{
-    color: #4fa7f7;
+  &.current {
+    color: #00BCD4;
   }
 }
 </style>

@@ -63,13 +63,16 @@ const childMixin = {
     })
   },
   methods: {
-    onItemClick(hasLink) {
+    onItemClick(e) {
       if (typeof this.disabled === 'undefined' || this.disabled === false) {
         this.currentSelected = true
         this.$parent.currentIndex = this.currentIndex
       }
-      if (hasLink === true) {
+      if (e == "link") {
         go(this.link, this.$router)
+      }
+      if (e == "callback") {
+        this.$emit('onSelect')
       }
     }
   },

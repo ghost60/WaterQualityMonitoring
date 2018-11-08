@@ -9,16 +9,18 @@
 export default {
   name: "Header",
   props: {
-    title: String,
-    cc:String
+    title: String
   }
 };
 </script>
 <style>
 .header {
   height: 48px;
-  background-color: #26a2ff;
+  background-color: #ffffff;
   text-align: center;
   line-height: 48px;
+  margin-bottom: 13px;
+  font-size: 18px;
+  color: #333333;
 }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div>
     <Cell :title="title" :lable="lable" :value="value"/>
+    <Cell :title="title" :lable="lable" :value="value"/>
+    <Cell :title="title" :lable="lable" :value="value"/>
+    <Cell :title="title" :lable="lable" :value="value"/>
+    <Cell :title="title" :lable="lable" :value="value"/>
   </div>
 </template>
 <script>
@@ -12,7 +16,7 @@ import Cell from "@/components/cell"
       return{
         title:'位置',
         lable:'温度',
-        value:'20C'
+        value:'20℃'
       }
     }
   }

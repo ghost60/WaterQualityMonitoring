@@ -20,11 +20,12 @@ export default {
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-    position: absolute;
-    z-index: 500;
+    height: 48px;
+    background-color: #FFFFFF;
+    box-shadow: 0px -6px 5px -5px #D9D9D9;
+    right: 0;
     bottom: 0;
-    width: 100%;
-    height: 52px;
-    background-color: #f7f7fa;
+    left: 0;
+    position: fixed;
 }
 </style>

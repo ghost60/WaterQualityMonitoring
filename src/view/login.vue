@@ -1,9 +1,9 @@
 <template>
   <div>   
     <p>水质监测系统</p>
-    <mt-field label="username" placeholder="Input username" v-model="username"></mt-field>
-    <mt-field label="password" placeholder="Input password" type="password" v-model="password"></mt-field>
-    <mt-button type="primary" v-on:click="login">primary</mt-button>
+    <input label="username" placeholder="Input username" v-model="username" />
+    <input label="password" placeholder="Input password" type="password" v-model="password"/>
+    <button type="primary" v-on:click="login">primary</button>
   </div>
 </template>
 
