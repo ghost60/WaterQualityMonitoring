@@ -7,8 +7,14 @@
         <SelectItem @onSelect="onSelect(30)">过去一个月</SelectItem>
         <SelectItem @onSelect="onSelect(0)">自定义</SelectItem>
       </Select>
-    <div class="card-time">
-      2018年11月1日-2018年11月11日
+    <div class="card-time" v-if="showTime">
+      <datetime @on-change="startChange" clear-text="开始时间">
+        <span class="card-time-defult">{{startTime}}</span>
+      </datetime>
+      --
+      <datetime @on-change="endChange" clear-text="开始时间">
+        <span class="card-time-defult">{{endTime}}</span>
+      </datetime>
     </div>
     </div>
   </div>
@@ -16,32 +22,64 @@
 <script>
 import Select from "./select/select";
 import SelectItem from "./select/select-item";
+import { Datetime } from "vux";
 
 export default {
   name: "DatePanel",
-  components: { Select, SelectItem },
+  components: { Select, SelectItem, Datetime },
+  data() {
+    return {
+      showTime: false,
+      startTime: "选择开始时间",
+      endTime: "选择结束时间"
+    };
+  },
+  watch: {
+    startTime() {
+      if (
+        this.endTime != "选择结束时间" &&
+        new Date(this.startTime) < new Date(this.endTime)
+      ) {
+        this.$emit("selectDate", this.startTime + " 00:00:00", this.endTime + " 00:00:00");
+      }
+    },
+    endTime() {
+      if (
+        this.startTime != "选择开始时间" &&
+        new Date(this.startTime) < new Date(this.endTime)
+      ) {
+        this.$emit("selectDate", this.startTime + " 00:00:00", this.endTime + " 00:00:00");
+      }
+    }
+  },
+  mounted(){
+    this.onSelect(24)
+  },
   methods: {
     onSelect(e) {
-      debugger;
-      //掘金JavaScript 复杂判断的更优雅写法
-      //https://juejin.im/post/5bdfef86e51d453bf8051bf8
-      // const actions = new Map([
-      //   [1, ["processing", "IndexPage"]],
-      //   [2, ["fail", "FailPage"]],
-      //   [3, ["fail", "FailPage"]],
-      //   [4, ["success", "SuccessPage"]],
-      //   [5, ["cancel", "CancelPage"]],
-      //   ["default", ["other", "Index"]]
-      // ]);
-      // /**
-      //  * 按钮点击事件
-      //  * @param {number} status 活动状态：1 开团进行中 2 开团失败 3 商品售罄 4 开团成功 5 系统取消
-      //  */
-      // const onButtonClick = status => {
-      //   let action = actions.get(status) || actions.get("default");
-      //   sendLog(action[0]);
-      //   jumpTo(action[1]);
-      // };
+      let endTime = new Date();
+      let startTime24 = new Date(endTime - 24 * 60 * 60 * 1000);
+      let startTime7 = new Date(endTime - 7 * 24 * 60 * 60 * 1000);
+      let startTime30 = new Date(endTime - 30 * 24 * 60 * 60 * 1000);
+      switch (e) {
+        case 24:
+          this.$emit("selectDate", startTime24, endTime);
+          break;
+        case 7:
+          this.$emit("selectDate", startTime7, endTime);
+          break;
+        case 30:
+          this.$emit("selectDate", startTime30, endTime);
+          break;
+        case 0:
+          this.showTime = true;
+      }
+    },
+    startChange(e) {
+      this.startTime = e;
+    },
+    endChange(e) {
+      this.endTime = e;
     }
   }
 };
@@ -60,6 +98,25 @@ export default {
     font-size: 12px;
     color: #777777;
     margin-top: 8px;
+    .card-time-defult {
+      color: #777777;
+    }
+  }
+}
+.dp-container {
+  .dp-header {
+    .dp-item {
+      color: #00bcdc;
+      font-size: 14px;
+      &.vux-datetime-clear {
+        color: #00bcdc;
+        font-size: 14px;
+      }
+      &.vux-datetime-confirm {
+        color: #00bcdc;
+        font-size: 14px;
+      }
+    }
   }
 }
 </style>

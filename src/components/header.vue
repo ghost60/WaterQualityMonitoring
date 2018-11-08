@@ -1,9 +1,7 @@
 <template>
-  <div>
     <div class="header">
       {{title}}
     </div>
-  </div>
 </template>
 <script>
 export default {
@@ -19,8 +17,13 @@ export default {
   background-color: #ffffff;
   text-align: center;
   line-height: 48px;
-  margin-bottom: 13px;
   font-size: 18px;
   color: #333333;
+  width: 100%;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 100; 
+  box-shadow: 0px 6px 5px -5px #d9d9d9;
 }
 </style>

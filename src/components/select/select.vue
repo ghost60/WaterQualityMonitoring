@@ -15,7 +15,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   font-size: 12px;
   color: #00bcdc;

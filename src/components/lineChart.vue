@@ -15,7 +15,12 @@ export default {
   name: "line-chart",
   props: {
     items: Object,
-    xid: String
+    xid: Number
+  },
+  computed: {
+    getxid() {
+      return `xid${this.xid}`;
+    }
   },
   mounted() {
     const option = {
@@ -29,7 +34,7 @@ export default {
         {
           type: "category",
           boundaryGap: false,
-          data: this.items.xData,
+          data: this.items.x,
           axisLine: {
             lineStyle: {
               type: "solid",
@@ -47,7 +52,7 @@ export default {
       yAxis: [
         {
           type: "value",
-          name: this.items.name + this.items.unit || "",
+          name: this.items.type,
           axisLine: {
             lineStyle: {
               type: "solid",
@@ -63,7 +68,7 @@ export default {
         }
       ],
       series: {
-        data: this.items.yData,
+        data: this.items.y,
         type: "line",
         itemStyle: {
           normal: {

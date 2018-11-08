@@ -33,7 +33,7 @@ export default {
 </script>
 <style lang="less">
 .item-icon {
-  margin: 2px 0px -7px 0px;
+  margin: 5px 0px -12px 0px;
   img {
     width: 22px;
     height: 22px;

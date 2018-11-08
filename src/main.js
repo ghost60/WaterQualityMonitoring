@@ -3,7 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// import Vux from 'vux'
+import VueCorvova from 'vue-cordova'
 
+// Vue.use(Vux)
+Vue.use(VueCorvova)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
