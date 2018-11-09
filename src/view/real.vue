@@ -12,6 +12,7 @@
 import Cell from "@/components/cell";
 import axios from "axios";
 import { Toast } from "vux";
+import {url} from "../common/global";
 
 export default {
   name: "Real",
@@ -30,7 +31,7 @@ export default {
       const _vm = this;
       axios({
         method: "get",
-        url: "/cw/sensors-stationId/" + "1",
+        url: `${url}sensors-stationId/` + "1",
         headers: {
           username: localStorage.getItem("username"),
           stationId: "1",

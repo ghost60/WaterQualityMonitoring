@@ -14,6 +14,7 @@ import DatePanel from "@/components/datePanel";
 import LineChart from "@/components/lineChart";
 import { Toast } from "vux";
 import axios from "axios";
+import {url} from "../common/global";
 
 export default {
   name: "Count",
@@ -47,7 +48,7 @@ export default {
       const _vm = this;
       axios({
         method: "get",
-        url: "/cw/sensors-history-stationId/" + "1",
+        url: `${url}sensors-history-stationId/` + "1",
         params: {
           startTime: startTime,
           endTime: endTime

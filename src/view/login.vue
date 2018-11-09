@@ -20,6 +20,8 @@
 <script>
 import { CheckIcon, Toast } from "vux";
 import axios from "axios";
+import {url} from "../common/global";
+
 export default {
   name: "Login",
   components: {
@@ -38,7 +40,7 @@ export default {
     login() {
       axios({
         method: "get",
-        url: "/cw/login",
+        url: `${url}/login`,
         data: {},
         headers: {
           username: this.username,
@@ -46,7 +48,6 @@ export default {
           projectEnglishName: "recycledwater"
         }
       }).then(res => {
-        debugger
         if (res.data.message === "登录成功") {
           localStorage.setItem("username", this.username);
           localStorage.setItem("token", res.data.token);

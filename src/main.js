@@ -21,7 +21,6 @@ new Vue({
 // document.addEventListener('deviceready', function() {
 //   new Vue({
 //       el: '#app',
-//       store,
 //       router,
 //       components: { App },
 //       template: '<App/>'
