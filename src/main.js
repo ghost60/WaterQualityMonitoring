@@ -3,10 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import Vux from 'vux'
+import 'lib-flexible/flexible.js'//适配移动端dpr
 import VueCorvova from 'vue-cordova'
 
-// Vue.use(Vux)
 Vue.use(VueCorvova)
 Vue.config.productionTip = false
 

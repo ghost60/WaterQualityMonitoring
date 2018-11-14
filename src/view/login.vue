@@ -10,17 +10,18 @@
     <img src="../assets/password.png">
     <input class="login-input user" label="password" placeholder="输入密码" type="password" v-model="password"/>
     </div>
-    <check-icon class="login-check" :value.sync="check" type="plain">记住密码</check-icon>
+    <check-icon class="login-check" :value.sync="checked" type="plain">记住密码</check-icon>
     <button class="login-sublim" type="primary" v-on:click="login">登 录</button>
     <div class="login-foot">© 2017 易科捷（武汉）生态科技有限公司</div>
-    <toast v-model="showToast" type="warn" width="80%">用户名或密码输入错误</toast>
+    <toast v-model="showToast" type="warn" width="80%">{{this.msg}}</toast>
   </div>
 </template>
 
 <script>
 import { CheckIcon, Toast } from "vux";
 import axios from "axios";
-import {url} from "../common/global";
+import { url } from "../common/global";
+import { error } from "util";
 
 export default {
   name: "Login",
@@ -32,45 +33,53 @@ export default {
     return {
       username: "",
       password: "",
-      check: false,
-      showToast: false
+      checked: false,
+      showToast: false,
+      msg: ""
     };
+  },
+  mounted() {
+    this.getCookie();
   },
   methods: {
     login() {
       axios({
         method: "get",
-        url: `${url}/login`,
+        // url: "http://192.168.0.145:8080/login",
+        url: "/cw/login",
         data: {},
         headers: {
           username: this.username,
           password: this.password,
           projectEnglishName: "recycledwater"
         }
-      }).then(res => {
-        if (res.data.message === "登录成功") {
-          localStorage.setItem("username", this.username);
-          localStorage.setItem("token", res.data.token);
-          if (this.checked == true) {
-            this.setCookie(this.username, this.password, 7);
-          } else {
-            this.clearCookie();
-          }
-          this.$router.push({ path: "/home" });
-        } else if (res.data.message === "已经登录,无需重复登录") {
-          localStorage.setItem("username", this.username);
-          localStorage.setItem("token", res.data.token);
-          if (this.checked == true) {
-            this.setCookie(this.username, this.password, 7);
-          } else {
-            this.clearCookie();
-          }
-          this.$router.push({ path: "/home" });
-        } else if (res.data.message === "用户名或密码输入错误") {
+      })
+        .then(res => {
           debugger
+          console.log(JSON.stringify(res));
+          if (res.data.status == true) {
+            localStorage.setItem("username", this.username);
+            localStorage.setItem("token", res.data.token);
+            if(res.data.stationId){
+              localStorage.setItem("stationId", res.data.stationId);
+              localStorage.setItem("stationName", res.data.stationName);
+            }
+            if (this.checked == true) {
+              this.setCookie(this.username, this.password, 7);
+            } else {
+              this.clearCookie();
+            }
+            this.$router.push({ path: "/home" });
+          } else {
+            this.msg = "用户名或密码错误！";
+            this.showToast = true;
+          }
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+          this.msg = "服务端异常！";
           this.showToast = true;
-        }
-      });
+        });
     },
     //设置cookie
     setCookie(c_name, c_pwd, exdays) {
@@ -81,6 +90,8 @@ export default {
         "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
       window.document.cookie =
         "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+      window.document.cookie =
+        "checked" + "=" + this.checked + ";path=/;expires=" + exdate.toGMTString();
     },
     //读取cookie
     getCookie() {
@@ -90,9 +101,11 @@ export default {
           var arr2 = arr[i].split("="); //再次切割
           //判断查找相对应的值
           if (arr2[0] == "userName") {
-            this.form.account = arr2[1]; //保存到保存数据的地方
+            this.username = arr2[1]; //保存到保存数据的地方
           } else if (arr2[0] == "userPwd") {
-            this.form.password = arr2[1];
+            this.password = arr2[1];
+          } else if (arr2[0] == "checked") {
+            this.checked = arr2[1];
           }
         }
       }

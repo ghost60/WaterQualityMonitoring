@@ -4,7 +4,7 @@
     <div v-for="(item,index) in dataList" :key=index>
     <Cell :title="item.location" :lable="item.cn_name" :value="item.num+item.unit"/>
     </div>
-    <toast v-model="warnToast" type="warn" >服务端异常</toast>
+    <toast v-model="warnToast" type="warn" width="50%">服务端异常</toast>
   </div>
 </template>
 
@@ -31,18 +31,20 @@ export default {
       const _vm = this;
       axios({
         method: "get",
-        url: `${url}sensors-stationId/` + "1",
+        // url: "http://192.168.0.145:8080/sensors-stationId/" + localStorage.getItem("stationId"),
+        url: "/cw/sensors-stationId/" + "1",
         headers: {
           username: localStorage.getItem("username"),
-          stationId: "1",
+          stationId: localStorage.getItem("stationId"),
           token: localStorage.getItem("token"),
-          uri: "test",
+          uri: "sensors-stationId",
           type: "API"
         }
       })
-        .then(response => {
-          if (response.data) {
-            var oldlist = response.data.data;
+        .then(res => {
+        console.log(JSON.stringify(res))
+          if (res.data) {
+            var oldlist = res.data.data;
             for (let i = 0; i < oldlist.length; i++) {
               if (oldlist[i].unit == "暂时没有单位") {
                 oldlist[i].unit = "";
@@ -52,6 +54,8 @@ export default {
           }
         })
         .catch(error => {
+        console.log(JSON.stringify(error))
+
           this.warnToast = true;
         });
     },

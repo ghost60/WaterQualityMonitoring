@@ -12,44 +12,37 @@
         <span class="card-time-defult">{{startTime}}</span>
       </datetime>
       --
-      <datetime @on-change="endChange" clear-text="开始时间">
+      <datetime @on-change="endChange" clear-text="结束时间">
         <span class="card-time-defult">{{endTime}}</span>
       </datetime>
     </div>
     </div>
+     <toast v-model="warnToast" type="warn" width="80%">{{msg}}</toast>
   </div>
 </template>
 <script>
 import Select from "./select/select";
 import SelectItem from "./select/select-item";
-import { Datetime } from "vux";
+import { Datetime, Toast } from "vux";
 
 export default {
   name: "DatePanel",
-  components: { Select, SelectItem, Datetime },
+  components: { Select, SelectItem, Datetime, Toast },
   data() {
     return {
       showTime: false,
       startTime: "选择开始时间",
-      endTime: "选择结束时间"
+      endTime: "选择结束时间",
+      warnToast:false,
+      msg:''
     };
   },
   watch: {
     startTime() {
-      if (
-        this.endTime != "选择结束时间" &&
-        new Date(this.startTime) < new Date(this.endTime)
-      ) {
-        this.$emit("selectDate", this.startTime + " 00:00:00", this.endTime + " 00:00:00");
-      }
+      this.ifTime()
     },
     endTime() {
-      if (
-        this.startTime != "选择开始时间" &&
-        new Date(this.startTime) < new Date(this.endTime)
-      ) {
-        this.$emit("selectDate", this.startTime + " 00:00:00", this.endTime + " 00:00:00");
-      }
+      this.ifTime()
     }
   },
   mounted(){
@@ -63,12 +56,15 @@ export default {
       let startTime30 = new Date(endTime - 30 * 24 * 60 * 60 * 1000);
       switch (e) {
         case 24:
+          this.showTime = false;
           this.$emit("selectDate", startTime24, endTime);
           break;
         case 7:
+          this.showTime = false;
           this.$emit("selectDate", startTime7, endTime);
           break;
         case 30:
+          this.showTime = false;
           this.$emit("selectDate", startTime30, endTime);
           break;
         case 0:
@@ -80,6 +76,25 @@ export default {
     },
     endChange(e) {
       this.endTime = e;
+    },
+    ifTime(){
+      if (
+        this.endTime != "选择结束时间" &&
+        new Date(this.startTime) < new Date(this.endTime)
+      ) {
+        if((new Date(this.endTime) - new Date(this.startTime))/( 1000 * 60 * 60 * 24)>90){
+          this.msg="时间间隔不能超过90天！"
+          this.warnToast=true
+        }else{
+          this.$emit("selectDate", this.startTime + " 00:00:00", this.endTime + " 00:00:00");
+        }
+      }else if(
+        this.endTime != "选择结束时间" &&
+        new Date(this.startTime) > new Date(this.endTime)
+      ){
+        this.msg="开始时间不能大于结束时间！"
+        this.warnToast=true
+      }
     }
   }
 };
@@ -98,6 +113,9 @@ export default {
     font-size: 12px;
     color: #777777;
     margin-top: 8px;
+    a{
+      display: inline;
+    }
     .card-time-defult {
       color: #777777;
     }

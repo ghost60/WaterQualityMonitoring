@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/cw':{
-      //   target:'http://192.168.0.145:8080/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/cw': '/'
-      //   }
-      // }
+      '/cw':{
+        target:'http://192.168.0.145:8080/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/cw': '/'
+        }
+      }
     },
 
     // Various Dev Server settings
@@ -61,7 +61,8 @@ module.exports = {
 
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
+    // devtool: '#source-map',
+    devtool: '#inline-source-map',
 
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
