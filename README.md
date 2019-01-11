@@ -1,6 +1,6 @@
-# waterapp
+# WaterQualityMonitoring
 
-> A Vue.js project
+> vue vux
 
 ## Build Setup
 
