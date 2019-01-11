@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@antv/f2": "^3.2.4",
+    "@antv/f2": "^3.3.4",
     "axios": "^0.18.0",
     "echarts": "^4.2.0-rc.2",
     "lib-flexible": "^0.3.2",

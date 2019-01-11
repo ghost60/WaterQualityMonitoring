@@ -1,6 +1,6 @@
 <template>
   <div class="back">
-    <Header title="沙坪二级鱼道"></Header>
+    <Header :title="title"></Header>
     <router-view></router-view>
     <tabbar>
       <tabbar-item selected link="/home/real">
@@ -13,6 +13,11 @@
         <img slot="icon-active" src="../assets/counted.png">
         <span slot="label">统计</span>
       </tabbar-item>
+      <tabbar-item link="/home/account">
+        <img slot="icon" src="../assets/account.png">
+        <img slot="icon-active" src="../assets/accounted.png">
+        <span slot="label">账户</span>
+      </tabbar-item>
     </tabbar>
   </div>
 </template>
@@ -24,19 +29,20 @@ import Header from "@/components/header";
 
 export default {
   name: "Login",
-  components: { Tabbar,  Header, TabbarItem },
+  components: { Tabbar, Header, TabbarItem },
   data() {
     return {
+      title: localStorage.getItem("stationName")
     };
   },
-  created () {
-      this.$router.push('/home/real')
-    },
+  created() {
+    this.$router.push("/home/real");
+  },
   methods: {}
 };
 </script>
 <style lang="less">
-.back{
-  background-color: #EFEFF4;
+.back {
+  background-color: #efeff4;
 }
 </style>

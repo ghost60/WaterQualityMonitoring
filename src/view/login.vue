@@ -45,8 +45,8 @@ export default {
     login() {
       axios({
         method: "get",
-        // url: "http://192.168.0.145:8080/login",
-        url: "/cw/login",
+        url: "http://120.78.180.96:8080/login",
+        // url: "/cw/login",
         data: {},
         headers: {
           username: this.username,
@@ -55,11 +55,10 @@ export default {
         }
       })
         .then(res => {
-          debugger
-          console.log(JSON.stringify(res));
           if (res.data.status == true) {
             localStorage.setItem("username", this.username);
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("roleName", res.data.roleName);
             if(res.data.stationId){
               localStorage.setItem("stationId", res.data.stationId);
               localStorage.setItem("stationName", res.data.stationName);
@@ -125,11 +124,13 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #2a3342;
+  background-image: url('../assets/login_bg.png');
+  background-repeat:no-repeat; 
+  background-size:100% 100%;
   .logo {
-    width: 91px;
-    height: 45px;
-    margin-top: 42px;
+    width: 76px;
+    height: 76px;
+    margin-top: 47px;
   }
   .login-title {
     font-size: 16px;
@@ -144,10 +145,9 @@ export default {
     align-items: center;
     width: 260px;
     height: 35px;
-    border-radius: 18px;
-    border: 1px solid #777777;
+    border-bottom: 1px solid #C5C5C5;
     &.up {
-      margin-top: 38px;
+      margin-top: 125px;
     }
     &.down {
       margin-top: 18px;
@@ -156,20 +156,20 @@ export default {
     img {
       width: 24px;
       height: 24px;
-      margin-left: 20px;
+      margin-left: 10px;
     }
     .login-input {
       border: none;
-      background-color: #2b3441;
       width: 180px;
-      height: 35px;
-      margin-left: 12px;
+      height: 34px;
+      margin-left: 20px;
       color: #777777;
+      background-color: #f8fefe;
     }
   }
   .login-check {
     margin-left: -176px;
-    margin-bottom: 8px;
+    margin-bottom: 24px;
     .weui-icon-success {
       font-size: 18px;
       color: #00c2e0;
@@ -204,7 +204,7 @@ export default {
   .login-foot {
     font-size: 12px;
     color: #c1c1c1;
-    margin-top: 154px;
+    margin-top: 90px;
   }
 }
 </style>

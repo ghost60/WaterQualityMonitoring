@@ -31,8 +31,8 @@ export default {
       const _vm = this;
       axios({
         method: "get",
-        // url: "http://192.168.0.145:8080/sensors-history-stationId/" + localStorage.getItem("stationId"),
-        url: "/cw/sensors-history-stationId/" + "1",
+        url: "http://120.78.180.96:8080/sensors-history-stationId/" + localStorage.getItem("stationId"),
+        // url: "/cw/sensors-history-stationId/" + "1",
         params: {
           startTime: startTime,
           endTime: endTime

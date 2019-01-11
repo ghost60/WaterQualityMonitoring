@@ -4,6 +4,7 @@ import Login from '@/view/login'
 import Home from '@/view/home'
 import Real from '@/view/real'
 import Count from '@/view/count'
+import Account from '@/view/account'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
           path: '/home/count',
           name: 'count',
           component: Count
+        },
+        {
+          path: '/home/account',
+          name: 'account',
+          component: Account
         },
       ]
     }

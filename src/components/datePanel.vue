@@ -25,6 +25,30 @@ import Select from "./select/select";
 import SelectItem from "./select/select-item";
 import { Datetime, Toast } from "vux";
 
+Date.prototype.format = function(format) {
+  var o = {
+    "M+": this.getMonth() + 1, //month
+    "d+": this.getDate(), //day
+    "h+": this.getHours(), //hour
+    "m+": this.getMinutes(), //minute
+    "s+": this.getSeconds(), //second
+    "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+    S: this.getMilliseconds() //millisecond
+  };
+  if (/(y+)/.test(format))
+    format = format.replace(
+      RegExp.$1,
+      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(format))
+      format = format.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
+      );
+  return format;
+};
+
 export default {
   name: "DatePanel",
   components: { Select, SelectItem, Datetime, Toast },
@@ -51,21 +75,21 @@ export default {
   methods: {
     onSelect(e) {
       let endTime = new Date();
-      let startTime24 = new Date(endTime - 24 * 60 * 60 * 1000);
-      let startTime7 = new Date(endTime - 7 * 24 * 60 * 60 * 1000);
-      let startTime30 = new Date(endTime - 30 * 24 * 60 * 60 * 1000);
+      let startTime24 = new Date(endTime - 24 * 60 * 60 * 1000).format("yyyy-MM-dd hh:mm:ss");
+      let startTime7 = new Date(endTime - 7 * 24 * 60 * 60 * 1000).format("yyyy-MM-dd hh:mm:ss");
+      let startTime30 = new Date(endTime - 30 * 24 * 60 * 60 * 1000).format("yyyy-MM-dd hh:mm:ss");
       switch (e) {
         case 24:
           this.showTime = false;
-          this.$emit("selectDate", startTime24, endTime);
+          this.$emit("selectDate", startTime24, endTime.format("yyyy-MM-dd hh:mm:ss"));
           break;
         case 7:
           this.showTime = false;
-          this.$emit("selectDate", startTime7, endTime);
+          this.$emit("selectDate", startTime7, endTime.format("yyyy-MM-dd hh:mm:ss"));
           break;
         case 30:
           this.showTime = false;
-          this.$emit("selectDate", startTime30, endTime);
+          this.$emit("selectDate", startTime30, endTime.format("yyyy-MM-dd hh:mm:ss"));
           break;
         case 0:
           this.showTime = true;
@@ -78,6 +102,7 @@ export default {
       this.endTime = e;
     },
     ifTime(){
+      debugger
       if (
         this.endTime != "选择结束时间" &&
         new Date(this.startTime) < new Date(this.endTime)

@@ -31,8 +31,8 @@ export default {
       const _vm = this;
       axios({
         method: "get",
-        // url: "http://192.168.0.145:8080/sensors-stationId/" + localStorage.getItem("stationId"),
-        url: "/cw/sensors-stationId/" + "1",
+        url: "http://120.78.180.96:8080/sensors-stationId/" + localStorage.getItem("stationId"),
+        // url: "/cw/sensors-stationId/" + localStorage.getItem("stationId"),
         headers: {
           username: localStorage.getItem("username"),
           stationId: localStorage.getItem("stationId"),
@@ -42,7 +42,6 @@ export default {
         }
       })
         .then(res => {
-        console.log(JSON.stringify(res))
           if (res.data) {
             var oldlist = res.data.data;
             for (let i = 0; i < oldlist.length; i++) {
@@ -54,8 +53,6 @@ export default {
           }
         })
         .catch(error => {
-        console.log(JSON.stringify(error))
-
           this.warnToast = true;
         });
     },
@@ -64,13 +61,13 @@ export default {
       let ws = null;
       let list = oldlist;
       if ("WebSocket" in window) {
-        ws = new WebSocket("ws://192.168.0.220:18888" + "//webSocket/123456");
+        ws = new WebSocket("ws://120.78.180.96:18888" + "/webSocket/recycledwater/" + localStorage.getItem('username') +"/" + localStorage.getItem('token'));
         ws.onopen = function() {
           let id = [];
           list.forEach(element => {
             id.push(element.equipId);
           });
-          ws.send(JSON.stringify({ type: "recyclewater", data: id }));
+          ws.send(JSON.stringify({ type: "recycledwater", data: id }));
         };
         ws.onmessage = function(evt) {
           let num = JSON.parse(evt.data);

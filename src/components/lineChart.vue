@@ -1,12 +1,10 @@
 <template>
   <div class="card-body">
     <div class="card-border">
-    <div class="card-title">
-      {{items.local}}
-    </div>
-    <div class="card-chart" :id="xid" :items="items">
-      <canvas :id="getxid" :items="items" class="fchart"></canvas>
-    </div>
+      <div class="card-title">{{items.local + items.type}}</div>
+      <div class="card-chart" :id="xid" :items="items">
+        <canvas :id="getxid" :items="items" class="fchart"></canvas>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +30,7 @@ export default {
   },
   methods: {
     drawChart() {
+      debugger;
       const option = {
         grid: {
           left: "3%",
@@ -98,14 +97,15 @@ export default {
         pixelRatio: window.devicePixelRatio
       });
       chart.source(this.items.data, {
-        value: {
-          tickCount: 5,
-          min: 0
-        },
-        date: {
-          type: "timeCat",
+        x: {
+          // type: "timeCat",
+          // mask: "MM/DD",
           range: [0, 1],
           tickCount: 3
+        },
+        y: {
+          tickCount: 5,
+          min: 0
         }
       });
       chart.tooltip({
@@ -115,20 +115,23 @@ export default {
           items[0].name = items[0].title;
         }
       });
-      // chart.axis("date", {
-      //   label: function label(text, index, total) {
-      //     var textCfg = {};
-      //     if (index === 0) {
-      //       textCfg.textAlign = "left";
-      //     } else if (index === total - 1) {
-      //       textCfg.textAlign = "right";
-      //     }
-      //     return textCfg;
-      //   }
-      // });
-      chart.clear(); 
-      // chart.repaint();
-      chart.line().position("x*y");
+      chart.axis("date", {
+        label: function label(text, index, total) {
+          var textCfg = {};
+          if (index === 0) {
+            textCfg.textAlign = "left";
+          } else if (index === total - 1) {
+            textCfg.textAlign = "right";
+          }
+          return textCfg;
+        }
+      });
+      chart.clear();
+      chart
+        .line()
+        .position("x*y")
+        .shape("smooth")
+        .color("#00bcdc");
       chart.render();
     }
   }
